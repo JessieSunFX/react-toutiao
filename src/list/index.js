@@ -7,7 +7,11 @@ import React, {Component} from 'react';
 
 export default class List extends Component{
     render() {
-        console.log('props::', this.props);
-        return (<div>列表</div>);
+        const {dataSource = [], renderItem} = this.props;
+        return (<div>
+            {
+                dataSource.map(renderItem)
+            }
+        </div>);
     }
 }

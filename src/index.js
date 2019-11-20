@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import List from './list';
+import * as components from './components/items';
 
 class Main extends Component {
 
@@ -32,7 +33,9 @@ class Main extends Component {
                 <List 
                     dataSource = {this.state.list}
                     renderItem = {item => {
-                        console.log('item::::',item);
+                        const type = item.type.replace(/^\w/, code => code.toUpperCase());
+                        const ItemComponent = components[type];
+                        return <ItemComponent />;
                     }}
                 />
             </div>;
