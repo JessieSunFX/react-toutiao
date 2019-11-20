@@ -14,14 +14,25 @@ class Main extends Component {
         this.state = {
             list: []
         };
+        this.getList()
+            .then(({data}) => {
+                this.setState({
+                    list: data
+                });
+            })
+    }
+
+    getList() {
+        return fetch('http://localhost:9000/list')
+            .then(res => res.json());
     }
 
     render() {
         return <div className="container">
                 <List 
                     dataSource = {this.state.list}
-                    renderItem = {() => {
-
+                    renderItem = {item => {
+                        console.log('item::::',item);
                     }}
                 />
             </div>;
