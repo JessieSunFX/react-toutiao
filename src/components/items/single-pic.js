@@ -5,12 +5,16 @@
 
 import React, {Component} from 'react';
 // import BaseItem from './base-item';
+import {itemFy, clickAble} from './decorators';
 
 // export default class SinglePic extends BaseItem{
+// decorators自下向上执行，等价于 itemFy(tagFy(SinglePic))
+@clickAble
+@itemFy
 export default class SinglePic extends Component{
     // _render() {
     render() {
-        return (<div className="item">
+        return (<div className="content">
            单图
         </div>);
     }

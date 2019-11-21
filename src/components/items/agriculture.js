@@ -6,12 +6,11 @@
 import React, {Component} from 'react';
 import {itemFy} from './decorators';
 
-class Agriculture extends Component{
+@itemFy
+export default class Agriculture extends Component{
     render() {
-        return (<div className="item">
+        return (<div className="content">
            农业
         </div>);
     }
 }
-
-export default itemFy(Agriculture);

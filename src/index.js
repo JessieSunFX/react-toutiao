@@ -35,10 +35,15 @@ class Main extends Component {
                     renderItem = {item => {
                         const type = item.type.replace(/^\w/, code => code.toUpperCase());
                         const ItemComponent = components[type];
-                        return <ItemComponent />;
+                        return <ItemComponent onClick={this.skip}/>;
                     }}
+                    
                 />
             </div>;
+    }
+
+    skip() {
+        console.log('开始跳转！');
     }
 }
 
