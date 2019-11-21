@@ -4,10 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import BaseItem from './base-item';
+// import BaseItem from './base-item';
 
-export default class SinglePic extends BaseItem{
-    _render() {
+// export default class SinglePic extends BaseItem{
+export default class SinglePic extends Component{
+    // _render() {
+    render() {
         return (<div className="item">
            单图
         </div>);

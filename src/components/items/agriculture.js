@@ -4,11 +4,14 @@
  */
 
 import React, {Component} from 'react';
+import {itemFy} from './decorators';
 
-export default class Agriculture extends Component{
+class Agriculture extends Component{
     render() {
         return (<div className="item">
            农业
         </div>);
     }
 }
+
+export default itemFy(Agriculture);
