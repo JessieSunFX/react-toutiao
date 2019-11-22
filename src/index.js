@@ -35,7 +35,10 @@ class Main extends Component {
                     renderItem = {item => {
                         const type = item.type.replace(/^\w/, code => code.toUpperCase());
                         const ItemComponent = components[type];
-                        return <ItemComponent onClick={this.skip}/>;
+                        return <ItemComponent
+                                onClick={this.skip}
+                                data={item.data}
+                            />;
                     }}
                     
                 />

@@ -12,6 +12,9 @@ import {itemFy, clickAble} from './decorators';
 @clickAble
 @itemFy
 export default class SinglePic extends Component{
+
+    static classes = 'single-pic';
+
     // _render() {
     render() {
         return (<div className="content">
