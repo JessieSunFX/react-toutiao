@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import List from './list';
 import Tab from './tab';
 import * as components from './components/items';
+import TabContext from './tab-context';
 
 // class Lazy extends Component{
 //     render() {
@@ -88,19 +89,21 @@ class Main extends Component {
 
     render() {
         return <div className="container">
-                <Tab tabs={TABS}></Tab>
-                <List 
-                    dataSource = {this.state.list}
-                    renderItem = {item => {
-                        const type = item.type.replace(/^\w/, code => code.toUpperCase());
-                        const ItemComponent = components[type];
-                        return <ItemComponent
-                                onClick={this.skip}
-                                data={item.data}
-                            />;
-                    }}
-                    
-                />
+                <TabContext.Provider value={ALL_TAB}>
+                    <Tab tabs={TABS}></Tab>
+                    <List 
+                        dataSource = {this.state.list}
+                        renderItem = {item => {
+                            const type = item.type.replace(/^\w/, code => code.toUpperCase());
+                            const ItemComponent = components[type];
+                            return <ItemComponent
+                                    onClick={this.skip}
+                                    data={item.data}
+                                />;
+                        }}
+                        
+                    />
+                </TabContext.Provider>
             </div>;
     }
 
