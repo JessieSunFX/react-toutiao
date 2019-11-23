@@ -26,6 +26,7 @@
   "dependencies": {
     "echarts": "^4.3.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "redux": "^4.0.4"
   }
 }

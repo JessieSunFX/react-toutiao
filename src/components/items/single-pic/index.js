@@ -4,8 +4,9 @@
  */
 
 import React, {Component} from 'react';
-// import BaseItem from './base-item';
-import {itemFy, clickAble} from './decorators';
+// import BaseItem from '../base-item';
+import {itemFy, clickAble} from '../decorators';
+import style from './style.css';
 
 // export default class SinglePic extends BaseItem{
 // decorators自下向上执行，等价于 itemFy(tagFy(SinglePic))
@@ -17,8 +18,11 @@ export default class SinglePic extends Component{
 
     // _render() {
     render() {
-        return (<div className="content">
-           单图
-        </div>);
+        const {title, imageList} = this.props.data;
+
+        return (<React.Fragment>
+            <h3>{title}</h3>
+            <img src={imageList[0]} />
+        </React.Fragment>);
     }
 }

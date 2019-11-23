@@ -1,0 +1,9 @@
+.single-pic {
+    display: flex;
+}
+.single-pic h3 {
+    flex: 1;
+}
+.single-pic img{
+    width: 33%;
+}

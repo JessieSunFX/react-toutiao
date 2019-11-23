@@ -16,9 +16,12 @@ export default class MultiplePic extends Component{
 
     render() {
         const {title, imageList} = this.props.data;
+
+        const imageComponent = imageList.map(image => (<img src={image} />));
+
         return (<React.Fragment>
            <h3>{title}</h3>
-           <img src={imageList[0]}/>
+           {imageComponent}
         </React.Fragment>);
     }
 }
