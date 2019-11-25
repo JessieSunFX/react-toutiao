@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const fs = require('fs');
-
+// ./node_modules/.bin/webpack
+// ./node_modules/.bin/webpack --watch
 module.exports = {
 
-    // entry: __dirname + '/src/index.js',
-    entry: __dirname + '/src/test.js',
+    entry: __dirname + '/src/index.js',
+    // entry: __dirname + '/src/test.js',
 
     output: {
         path: __dirname + '/dist/',

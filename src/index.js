@@ -9,6 +9,7 @@ import List from './list';
 import Tab from './tab';
 import * as components from './components/items';
 import TabContext from './tab-context';
+import store from './store';
 
 // class Lazy extends Component{
 //     render() {
@@ -74,12 +75,7 @@ class Main extends Component {
             list: [],
             showSetting: false
         };
-        this.getList()
-            .then(({data}) => {
-                this.setState({
-                    list: data
-                });
-            })
+        this.reactiveList();
     }
 
     getList() {
@@ -105,6 +101,24 @@ class Main extends Component {
                     />
                 </TabContext.Provider>
             </div>;
+    }
+
+    updateList() {
+        retrun this.getList()
+            .then(({data}) => {
+               return data;
+            });
+    }
+
+    reactiveList() {
+       this.updateList().then(data => {
+           store.dispatch({
+               type: 'PUSH_LIST'
+           });
+       });
+       window.onscroll = () => {
+            this.updateList();
+       };
     }
 
     skip() {
