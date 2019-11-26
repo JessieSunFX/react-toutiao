@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import {itemFy, itemFy1} from './decorators';
 import Echarts from './echarts';
+import store from '../../store';
 
 // @itemFy
 @itemFy1()
@@ -16,7 +17,21 @@ export default class Agriculture extends Component{
     render() {
         return (<div className="content">
            农业
+           <button onClick={this.supplement}>增加猪价项</button>
            <Echarts />
         </div>);
+    }
+
+    supplement() {
+        store.dispatch({
+            type: 'PUSH_LIST',
+            data: [{
+                data: {
+                    articleUrl: "http://m.ce.cn/ttt/201907/10/t20190710_32584185.shtml", 
+                    id: "i6727634212259643910"
+                },
+                type: "agriculture"
+            }]
+        });
     }
 }

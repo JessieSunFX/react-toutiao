@@ -10,6 +10,7 @@ import Tab from './tab';
 import * as components from './components/items';
 import TabContext from './tab-context';
 import store from './store';
+import {Provider, connect} from 'react-redux';
 
 // class Lazy extends Component{
 //     render() {
@@ -84,11 +85,13 @@ class Main extends Component {
     }
 
     render() {
+        console.log('props:::::::', this.props.list);
         return <div className="container">
                 <TabContext.Provider value={ALL_TAB}>
                     <Tab tabs={TABS}></Tab>
                     <List 
-                        dataSource = {this.state.list}
+                        // dataSource = {this.state.list}
+                        dataSource = {this.props.list}
                         renderItem = {item => {
                             const type = item.type.replace(/^\w/, code => code.toUpperCase());
                             const ItemComponent = components[type];
@@ -104,20 +107,41 @@ class Main extends Component {
     }
 
     updateList() {
-        retrun this.getList()
+        return this.getList()
             .then(({data}) => {
                return data;
             });
     }
 
     reactiveList() {
-       this.updateList().then(data => {
-           store.dispatch({
-               type: 'PUSH_LIST'
-           });
-       });
+        console.log('my-props::::', this.props);
+
+        // redux问题1：不知道订阅哪些子集好，订阅需要条件，比如list改变时
+        // 问题2：万一store位置改变改变了，要跟着变动
+        // 解决方式：react-redux
+        // store.subscribe(() => {
+        //     console.log('state:::::', store.getState());
+        //     this.setState({
+        //         list: store.getState().list
+        //     });
+        // });
+        this.updateList()
+            .then(data => {
+                // store.dispatch({
+                //     type: 'PUSH_LIST',
+                //     data
+                // });
+                this.props.listUpdate(data);
+            });
        window.onscroll = () => {
-            this.updateList();
+            this.updateList()
+                .then(data => {
+                    // store.dispatch({
+                    //     type: 'PUSH_LIST',
+                    //     data
+                    // });
+                    this.props.listUpdate(data);
+                });
        };
     }
 
@@ -126,8 +150,33 @@ class Main extends Component {
     }
 }
 
+const App = connect(
+    state => {//mapStateToProps--类似于subscribe后把state放到context中
+        console.log('state::::', state);
+        return {
+            list: state.list
+        };
+    },
+    // 问题抛出：目前dispatch的都是同步方法，没有异步方法
+    // 引入：middleware(redux中的中间件叫enhancer)
+    // enhancer 让你封装reducer的处理
+    dispatch => {//mapDispatchToProps
+        return {
+            listUpdate: data => {
+                dispatch({
+                    type: 'PUSH_LIST',
+                    data
+                });
+            }
+        };
+    }
+)(Main);
+
 ReactDOM.render(
-    <Main />,
+    // 大多数工程都会选择将<Provider>套在根上
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('app')
 );
 
