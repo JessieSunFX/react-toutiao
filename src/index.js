@@ -10,7 +10,8 @@ import Tab from './tab';
 import * as components from './components/items';
 import TabContext from './tab-context';
 import store from './store';
-import {Provider, connect} from 'react-redux';
+// import {Provider, connect} from 'react-redux';
+import {Provider, connect} from './fake-react-redux';
 
 // class Lazy extends Component{
 //     render() {
