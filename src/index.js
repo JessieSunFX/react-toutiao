@@ -106,10 +106,24 @@ class Main extends Component {
             </div>;
     }
 
-    updateList() {
+    // updateList() {
+    //     return this.getList()
+    //         .then(({data}) => {
+    //            return {
+    //                type: 'PUSH_LIST',
+    //                data
+    //            };
+    //         });
+    // }
+
+    updateList(dispatch) {
+        console.log('dispatch?????', dispatch);
         return this.getList()
             .then(({data}) => {
-               return data;
+                dispatch({
+                    type: 'PUSH_LIST',
+                    data
+                });
             });
     }
 
@@ -125,23 +139,27 @@ class Main extends Component {
         //         list: store.getState().list
         //     });
         // });
-        this.updateList()
-            .then(data => {
-                // store.dispatch({
-                //     type: 'PUSH_LIST',
-                //     data
-                // });
-                this.props.listUpdate(data);
-            });
-       window.onscroll = () => {
-            this.updateList()
-                .then(data => {
-                    // store.dispatch({
-                    //     type: 'PUSH_LIST',
-                    //     data
-                    // });
-                    this.props.listUpdate(data);
-                });
+        // this.updateList()
+        //     .then(data => {
+        //         // store.dispatch({
+        //         //     type: 'PUSH_LIST',
+        //         //     data
+        //         // });
+        //         this.props.listUpdate(data);
+        //     });
+        // this.props.listUpdate(this.updateList());
+        this.props.listUpdate(this.updateList.bind(this));
+        window.onscroll = () => {
+            // this.updateList()
+            //     .then(data => {
+            //         // store.dispatch({
+            //         //     type: 'PUSH_LIST',
+            //         //     data
+            //         // });
+            //         this.props.listUpdate(data);
+            //     });
+            // this.props.listUpdate(this.updateList());
+            this.props.listUpdate(this.updateList.bind(this));
        };
     }
 
@@ -162,11 +180,14 @@ const App = connect(
     // enhancer 让你封装reducer的处理
     dispatch => {//mapDispatchToProps
         return {
-            listUpdate: data => {
-                dispatch({
-                    type: 'PUSH_LIST',
-                    data
-                });
+            // listUpdate: data => {
+            //     dispatch({
+            //         type: 'PUSH_LIST',
+            //         data
+            //     });
+            // }
+            listUpdate: task => {
+                dispatch(task);
             }
         };
     }
