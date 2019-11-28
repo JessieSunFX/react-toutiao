@@ -10,8 +10,10 @@ import Tab from './tab';
 import * as components from './components/items';
 import TabContext from './tab-context';
 import store from './store';
-// import {Provider, connect} from 'react-redux';
-import {Provider, connect} from './fake-react-redux';
+import {Provider, connect} from 'react-redux';
+// import {Provider, connect} from './fake-react-redux';
+import {BrowserRouter, Route} from 'react-router-dom';
+import Detail from './detail';
 
 // class Lazy extends Component{
 //     render() {
@@ -192,14 +194,32 @@ const App = connect(
                 dispatch(task);
             }
         };
+    },
+
+    function mergeProps(stateProps, dispatchProps, ownProps) {
+        console.log('stateProps, dispatchProps, ownProps', stateProps, dispatchProps, ownProps);
+        return {...stateProps, ...dispatchProps, ...ownProps};
     }
 )(Main);
 
+const AppContainer = () => {
+    return <BrowserRouter>
+        <Route path="/home" component={App} />
+        <Route path="/detail" component={Detail} />
+    </BrowserRouter>;
+};
+
+// ReactDOM.render(
+//     // 大多数工程都会选择将<Provider>套在根上
+//     <Provider store={store}>
+//         <App name="yuanxin"/>
+//     </Provider>,
+//     document.getElementById('app')
+// );
 ReactDOM.render(
     // 大多数工程都会选择将<Provider>套在根上
     <Provider store={store}>
-        <App name="yuanxin"/>
+        <AppContainer />
     </Provider>,
     document.getElementById('app')
 );
-
