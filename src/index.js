@@ -86,6 +86,7 @@ class Main extends Component {
     }
 
     render() {
+        console.log('i got props::', this.props);
         console.log('props:::::::', this.props.list);
         return <div className="container">
                 <TabContext.Provider value={ALL_TAB}>
@@ -197,7 +198,7 @@ const App = connect(
 ReactDOM.render(
     // 大多数工程都会选择将<Provider>套在根上
     <Provider store={store}>
-        <App />
+        <App name="yuanxin"/>
     </Provider>,
     document.getElementById('app')
 );

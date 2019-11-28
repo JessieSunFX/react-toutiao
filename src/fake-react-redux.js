@@ -35,12 +35,19 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
             constructor(props) {
                 super(props);
                 this.state = {
-                    store: null
+                    mergedProps: null
                 };
             }
 
             componentDidMount() {
-                this.context.subscribe
+                const store = this.context;
+                store.subscribe(() => {
+                    // console.log('getState:::', store.getState());
+                    const mergedProps = this.computeProps(store);
+                    if(mergedProps !== this.state.mergedProps) {
+                        this.setState({mergedProps});
+                    }  
+                });
             }
 
             static contextType = ReduxContext;
@@ -56,8 +63,8 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
 
             render() {
                 console.log('i got:::', this.context);
-                const mergedProps = this.state.store || this.computeProps(this.context);
-                return (<ConnectComponent {...mergedProps}/>);
+                const mergedProps = this.state.mergedProps || this.computeProps(this.context);
+                return (<ConnectComponent {...mergedProps} {...this.props}/>);
             }
         }
     }

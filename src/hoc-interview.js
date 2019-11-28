@@ -17,7 +17,7 @@ function suspense(WrapComponent, func) {
             func()
                 .then(() => {
                     this.setState({
-                        status: 'fullfilled'
+                        status: 'fulfilled'
                     });
                 })
                 .catch(() => {
@@ -31,7 +31,7 @@ function suspense(WrapComponent, func) {
             const statusMap = {//map + 状态机
                 error: <Error />,
                 loading: <Loading />,
-                fullfilled: <WrapComponent />
+                fulfilled: <WrapComponent />
             };
             const RenderComponent = statusMap[this.state.status];
             return <RenderComponent />;
