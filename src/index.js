@@ -12,7 +12,7 @@ import TabContext from './tab-context';
 import store from './store';
 import {Provider, connect} from 'react-redux';
 // import {Provider, connect} from './fake-react-redux';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
 import Detail from './detail';
 
 // class Lazy extends Component{
@@ -92,6 +92,7 @@ class Main extends Component {
         console.log('props:::::::', this.props.list);
         return <div className="container">
                 <TabContext.Provider value={ALL_TAB}>
+                    {/* <Link to="/detail/i672787548849319878">跳转到详情页面</Link> */}
                     <Tab tabs={TABS}></Tab>
                     <List 
                         // dataSource = {this.state.list}
@@ -100,7 +101,7 @@ class Main extends Component {
                             const type = item.type.replace(/^\w/, code => code.toUpperCase());
                             const ItemComponent = components[type];
                             return <ItemComponent
-                                    onClick={this.skip}
+                                    onClick={this.skip.bind(this)}
                                     data={item.data}
                                 />;
                         }}
@@ -168,7 +169,8 @@ class Main extends Component {
     }
 
     skip() {
-        console.log('开始跳转！');
+        console.log('开始跳转！', this.props.history.push);
+        this.props.history.push('/detail/'+'i6727634212259643910'+Math.random()*10);
     }
 }
 
@@ -202,11 +204,11 @@ const App = connect(
     }
 )(Main);
 
-const AppContainer = () => {
-    return <BrowserRouter>
-        <Route path="/home" component={App} />
-        <Route path="/detail" component={Detail} />
-    </BrowserRouter>;
+const AppContainer = () => {//可以用renderProps的形式
+    return (<BrowserRouter>
+        <Route path="/home" render={() => <App/>} />
+        <Route path="/detail/:id" component={Detail} />
+    </BrowserRouter>);
 };
 
 // ReactDOM.render(
