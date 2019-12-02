@@ -12,7 +12,8 @@ import TabContext from './tab-context';
 import store from './store';
 import {Provider, connect} from 'react-redux';
 // import {Provider, connect} from './fake-react-redux';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
+// import {Router} from 'react-router';
 import Detail from './detail';
 
 // class Lazy extends Component{
@@ -90,24 +91,25 @@ class Main extends Component {
     render() {
         console.log('i got props::', this.props);
         console.log('props:::::::', this.props.list);
+
         return <div className="container">
-                <TabContext.Provider value={ALL_TAB}>
-                    {/* <Link to="/detail/i672787548849319878">跳转到详情页面</Link> */}
-                    <Tab tabs={TABS}></Tab>
-                    <List 
-                        // dataSource = {this.state.list}
-                        dataSource = {this.props.list}
-                        renderItem = {item => {
-                            const type = item.type.replace(/^\w/, code => code.toUpperCase());
-                            const ItemComponent = components[type];
-                            return <ItemComponent
-                                    onClick={this.skip.bind(this)}
-                                    data={item.data}
-                                />;
-                        }}
-                        
-                    />
-                </TabContext.Provider>
+                    <TabContext.Provider value={ALL_TAB}>
+                        {/* <Link to="/detail/i672787548849319878">跳转到详情页面</Link> */}
+                        <Tab tabs={TABS}></Tab>
+                        <List 
+                            // dataSource = {this.state.list}
+                            dataSource = {this.props.list}
+                            renderItem = {item => {
+                                const type = item.type.replace(/^\w/, code => code.toUpperCase());
+                                const ItemComponent = components[type];
+                                return <ItemComponent
+                                        onClick={this.skip.bind(this)}
+                                        data={item.data}
+                                    />;
+                            }}
+                            
+                        />
+                    </TabContext.Provider>
             </div>;
     }
 
@@ -205,9 +207,15 @@ const App = connect(
 )(Main);
 
 const AppContainer = () => {//可以用renderProps的形式
+    const TopBar = () => {
+        return <div>我是404</div>;
+    }
     return (<BrowserRouter>
-        <Route path="/home" render={() => <App/>} />
-        <Route path="/detail/:id" component={Detail} />
+        <Switch>
+            <Route path="/home" component={App} />
+            <Route path="/detail/:id" component={Detail} />
+            <Route component={TopBar} />
+        </Switch>
     </BrowserRouter>);
 };
 

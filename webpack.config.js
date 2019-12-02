@@ -1,9 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { SkeletonPlugin } = require('page-skeleton-webpack-plugin');
 const path = require('path');
 const fs = require('fs');
 // ./node_modules/.bin/webpack
 // ./node_modules/.bin/webpack --watch
-module.exports = {
+let webPackConfig = {
 
     entry: __dirname + '/src/index.js',
     // entry: __dirname + '/src/test.js',
@@ -61,7 +62,7 @@ module.exports = {
         port: 9000,
         disableHostCheck: true,
         before: function (app, server) {
-            app.get(/\/(home|detail)/, function (req, res) {
+            app.get(/\/(home|detail|aaa)/, function (req, res) {
                 const fileName = `./dist/html/index.html`;
                 fs.readFile(fileName, function (err, content) {
                     res.setHeader('Content-Type', 'text/html');
@@ -81,3 +82,13 @@ module.exports = {
         }
     }
 };
+
+if (process.env.NODE_ENV === 'skeleton') {
+    webPackConfig.plugins.push(new SkeletonPlugin({
+        pathname: path.resolve(__dirname, `./skeleton`),
+        staticDir: path.resolve(__dirname, './dist'),
+        routes: ['/', '/home', '/detail/112233'],
+    }));
+}
+
+module.exports = webPackConfig;
