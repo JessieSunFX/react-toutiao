@@ -79,3 +79,9 @@ requestAnimationFrame:回调每一帧都确定执行，高优先级的任务；
 #### expriationTime
 当前时间 + 常量（优先级）获得当前谁的优先级高，再减去当前时间，就能获取当前任务的timeout;
 用performance.now获取当前时间，不用Date.now,精度不高问题；
+
+当前时间 + 常量 算出expriationTime,优先级高低；
+调度之前，当时任务如果过期，不需要调度，直接调port.postMessage,能在渲染过后立马执行过期任务；
+如果没有过期，通过requestAnimationFrame去启动一个定时器，这个定时器在重绘前去调用回调方法（没有过期）；过期了就在下一帧渲染之后立马执行；
+在回调的方法中需要执行计算，每一帧的时间以及下一帧的时间，紧接着再去执行postMessage;在channel的port里面去ownMessage,ownMessage在渲染之后执行；
+ownMessage的执行需要做判断，当前时间小于下一帧的时间，代表有空余时间去执行；大于代表没有空余时间去执行，大于的话判断是否有过期任务，有的话接着执行，没有过期的话，那把这个任务丢到下一帧去执行；
